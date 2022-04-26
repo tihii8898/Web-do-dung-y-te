@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     
     'base.apps.BaseConfig',
+    "corsheaders", # cái này để cho share api với thế giới =)) https://youtu.be/PtQiiknWUcI?t=22814
 ]
 
 MIDDLEWARE = [
@@ -51,6 +52,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
+    
+    
+    ### CORS-HEADERS
+    "corsheaders.middleware.CorsMiddleware", #cái này đi chung với corsheaders https://youtu.be/PtQiiknWUcI?t=22814
+    "django.middleware.common.CommonMiddleware",#cái này đi chung với corsheaders https://youtu.be/PtQiiknWUcI?t=22814
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -125,3 +132,5 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CORS_ALLOW_ALL_ORIGINS = True #Cho phép cả thế giới vào xem api :3 https://github.com/adamchainz/django-cors-headers
