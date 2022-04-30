@@ -1,0 +1,55 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+
+
+
+{% if page == 'login' %}
+
+    <main class="login">
+        <form action="" method="post">
+            {% csrf_token %}
+            <label for="username">Username: </label>
+            <input type="text" name="username" id="username" placeholder ='Username ...'>
+            
+            <label for="password">Password: </label>
+            <input type="text" name="password" id="password" placeholder ='&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;'>
+            
+            
+        </form>
+        <button type="submit">Login</button>
+        <div class="action">
+            <p>Chưa có tài khoảng ? </p>
+            <a href="{% url 'signup' %}">=> Đăng kí <=</a>
+        </div>
+    </main>
+{% else %}
+
+    <main class='signup'>
+        <form action="" method = 'POST'>
+            {% csrf_token %}
+            {% for field in form %}
+            <div>
+                <label >{{field.label}}</label>
+                {{field}}
+            </div>
+            {% endfor %}
+            <button type="submit">Đăng kí</button>
+        </form>
+
+
+        <div class="action">
+            <p>Đã có tài khoản ? </p>
+            <a href="{% url 'login' %}">=> Đăng nhập <=</a>
+        </div>
+    </main>
+
+
+{% endif %}
+
+
+
+
+
+{% endblock content %}
