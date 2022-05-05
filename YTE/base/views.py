@@ -4,12 +4,16 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+from .models import *
 # Create your views here.
 
 
 def homePage(request):
-
-    context = {}
+    products = Product.objects.all()
+    context = {
+        'products': products
+    }
 
     return render(
         request,
@@ -17,8 +21,10 @@ def homePage(request):
         context
     )
 
-
+@login_required(login_url='/login')
 def cart(request):
+    user = request.user
+    
 
     context = {}
 
@@ -94,3 +100,8 @@ def signupPage(request):
 
 
     )
+
+
+def logoutUser(request):
+    logout(request)
+    return redirect('home')

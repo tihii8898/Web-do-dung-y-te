@@ -1,1 +1,12 @@
 <h3>Header</h3>
+
+<nav>
+    {% if request.user.is_authenticated %}
+    <a href="{% url 'logout' %}">Log out</a>
+    {% else %}
+    <a href="{% url 'login' %}">Log in</a>
+    {% endif %}
+
+    <a href="{% url 'cart' %}">Cart</a>
+    <hr>
+</nav>

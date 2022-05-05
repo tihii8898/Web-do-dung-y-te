@@ -8,6 +8,7 @@ class Product(models.Model):
     user = models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
     name = models.CharField(max_length=200,null=False,blank=False)
     description = models.TextField(null=True,blank=True)
+    image = models.ImageField(null=True,blank=True)
     price = models.IntegerField(null=False,blank=False)
     category = models.CharField(max_length=200,null=False,blank=False)
     countInStock = models.IntegerField(null=True,blank=True,default=0)
