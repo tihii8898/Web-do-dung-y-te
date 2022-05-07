@@ -3,14 +3,13 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width= device-width, initial-scale = 1.0">
-        <title>All Products - Nhom 9 | YTE</title>
+        <title>All Products - Nhóm 9 | YTE</title>
         <link rel="stylesheet" href="style.css"> 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;500;600;700&display=swap" rel="stylesheet">  
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css">
         <link rel="icon" href="img/core-img/favicon.ico">
-        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css">
     </head>
     <body>
         <div class="container">
@@ -33,80 +32,39 @@
                  <img src="img/bg-img/menu.png" class="menu-icon" onclick="menutoggle()">
             </div> 
         </div>
+<!-- account-page -->
+<div class="account-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-2">
+                <img src="img/bg-img/bg-6.jpg" width="100%">
+            </div>
+            <div class="col-2">
+                <div class="form-container">
+                    <div class="form-btn">
+                        <span onclick="login()">Login</span>
+                        <span onclick="register()">Register</span>
+                        <hr id="Indicator">
+                    </div>
+                    <form id="LoginForm">
+                        <input type="text" placeholder="Username">
+                        <input type="password" placeholder="Password">
+                        <button type="submit" class="btn"> Login </button>
+                        <a href="">Fotgot password</a>
+                    </form>
 
-<!-- cart items details -->
-<div class="small-container cart-page">
-    <table>
-        <tr>
-            <th>Product</th>
-            <th>Quantity</th>
-            <th>Subtotal</th>
-        </tr>
-        <tr>
-            <td>
-                <div class="cart-info">
-                    <img src="img/product-img/product-1.jpg">
-                    <div>
-                        <p>Nước rửa tay Purell</p>
-                        <small>Price: $5.0</small>
-                        <br>
-                        <a href="">Xóa</a>
-                    </div>
-                </div>
-            </td>
-            <td><input type="number" value="1"></td>
-            <td>$5.0</td>
-        </tr>
-        <tr>
-            <td>
-                <div class="cart-info">
-                    <img src="img/product-img/product-2.jpg">
-                    <div>
-                        <p>Nước rửa tay Purell</p>
-                        <small>Price: $5.0</small>
-                        <br>
-                        <a href="">Xóa</a>
-                    </div>
-                </div>
-            </td>
-            <td><input type="number" value="1"></td>
-            <td>$5.0</td>
-        </tr>
-        <tr>
-            <td>
-                <div class="cart-info">
-                    <img src="img/product-img/product-3.jpg">
-                    <div>
-                        <p>Nước rửa tay Purell</p>
-                        <small>Price: $5.0</small>
-                        <br>
-                        <a href="">Xóa</a>
-                    </div>
-                </div>
-            </td>
-            <td><input type="number" value="1"></td>
-            <td>$5.0</td>
-        </tr>
-    </table>
+                    <form id="RegForm">
+                        <input type="text" placeholder="Username">
+                        <input type="email" placeholder="Email">
+                        <input type="password" placeholder="Password">
+                        <button type="submit" class="btn"> Register </button>
+                    </form>
 
-    <div class="total-price">
-        <table>
-            <tr>
-                <td>Subtotal</td>
-                <td>$15.0</td>
-            </tr>
-            <tr>
-                <td>Tax</td>
-                <td>$35.0</td>
-            </tr>
-            <tr>
-                <td>Total</td>
-                <td>$50.0</td>
-            </tr>
-        </table>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
 <!-- ---------- footer ---------- -->
 <div class="footer">
     <div class="container">
@@ -143,7 +101,7 @@
             </div>
         </div>
         <hr>
-        <p class="copyright">Copyright Nhom 9</p>
+        <p class="copyright">Copyright Nhóm 9</p>
     </div>
 </div>
 <!-- js for toggle menu -->
@@ -160,5 +118,23 @@
             }
         }
     </script>
+<!-- js for toggle form -->
+<script>
+    var LoginForm = document.getElementById("LoginForm");
+    var RegForm = document.getElementById("RegForm");
+    var Indicator = document.getElementById("Indicator");
+    function register(){
+        RegForm.style.transform = "translateX(0px)";
+        LoginForm.style.transform = "translateX(0px)";
+        Indicator.style.transform = "translateX(100px)";
+
+    }
+    function login(){
+        RegForm.style.transform = "translateX(300px)";
+        LoginForm.style.transform = "translateX(300px)";
+        Indicator.style.transform = "translateX(0px)";
+    }
+</script>
+
 </body>
 </html>
