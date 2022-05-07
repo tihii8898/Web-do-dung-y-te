@@ -1,0 +1,56 @@
+{% extends 'main.html' %} {% load static %} {% block content %}
+<!-- --------------single product------------- -->
+<div class="small-container single-product">
+  <div class="row">
+    <div class="col-2">
+      <img
+        src="{% static 'images/product-img/' %}{{product.image}}"
+        width="100%"
+        id="ProductImg"
+      />
+    </div>
+    <div class="col-2">
+      <p>Category: {{product.category}}</p>
+      <h1>{{product.name}}</h1>
+      <h4>{{product.price}} VND</h4>
+
+      <form action="" method="post">
+        {% csrf_token %}
+        <input type="number" name="count-product" value="1" />
+        <button type="submit" class="btn">Add To Cart</button>
+      </form>
+      <h3>Product Details <i class="fa fa-indent aria-hidden=" true></i></h3>
+      <br />
+      <p>{{product.description}}</p>
+    </div>
+  </div>
+</div>
+<!-- tilte -->
+<div class="small-container">
+  <div class="row row-2">
+    <h2>Relate Products</h2>
+    <p>View more</p>
+  </div>
+</div>
+<!-- products -->
+<div class="small-container">
+  <div class="row">
+    {% for product in relate_products %}
+
+        <div class="col-4">
+        <img src="{% static 'images/product-img/' %}{{product.image}}" />
+        <h4>{{product.name}}</h4>
+        <div class="rating">
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star-o"></i>
+        </div>
+        <p>{{product.price}} VND</p>
+        <a href="{% url 'product-info' product.id %}">Xem </a>
+        </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock content %}

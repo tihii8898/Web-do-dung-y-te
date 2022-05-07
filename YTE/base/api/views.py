@@ -35,6 +35,6 @@ def getOrders(request):
 @api_view(['GET'])
 def getOrderItem(request):
     orders_item = OrderItem.objects.all()
-    orders_item_serializer = OrdersSerializer(orders_item,many = True)
+    orders_item_serializer = OrderItemSerializer(orders_item,many = True)
     
     return Response(orders_item_serializer.data)

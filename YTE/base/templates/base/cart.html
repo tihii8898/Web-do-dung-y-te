@@ -1,6 +1,57 @@
-{% extends 'main.html' %}
+{% extends 'main.html' %} {% load static %} {% block content %}
+<!-- cart items details -->
+<div class="small-container cart-page">
+  <table>
+    <tr>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Price</th>
+    </tr>
+    {% for item in orderItem_set %}
+    <tr>
+      <td>
+        <div class="cart-info">
+          <img src="{% static 'images/product-img/' %}{{item.image}}" />
+          <div>
+            <p>{{item.name}}</p>
+            <small>Price: {{item.price}} VND</small>
+            <br />
+            <form action="" method="POST">
+              {% csrf_token %}
+              <button type="submit">X</button>
+              <input name="id" type="hidden" value="{{item.id}}" />
+            </form>
+          </div>
+        </div>
+      </td>
+      <td><input type="number" value="{{item.count}}" /></td>
+      <td>{{item.price}}</td>
+    </tr>
+    {% endfor %}
+  </table>
 
-{% block content %}
-<h2>CART</h2>
+  <div class="total-price">
+    <table>
+      <tr>
+        <td>Subtotal</td>
+        <td id = 'subTotal'>{{subTotal}}</td>
+      </tr>
+      <tr>
+        <td>Tax</td>
+        <td id='tax' >30000</td>
+      </tr>
+      <tr>
+        <td>Total</td>
+        <td id = 'total'>$50.0</td>
+      </tr>
+    </table>
+  </div>
+</div>
 
+<script>
+    let subTotal = document.getElementById('subTotal')
+    let tax = document.getElementById('tax')
+    let total = document.getElementById('total')
+    total.innerHTML = parseInt(subTotal.innerHTML) + parseInt(tax.innerHTML)
+</script>
 {% endblock content %}
