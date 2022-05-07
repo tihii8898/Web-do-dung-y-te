@@ -11,13 +11,15 @@ from .models import *
 
 def homePage(request):
     products = Product.objects.all()
+    products_latest = Product.objects.all().order_by('createAt').reverse()
     context = {
-        'products': products
+        'products': products,
+        'products_latest':products_latest
     }
 
     return render(
         request,
-        'base/home.html',
+        'base/index.html',
         context
     )
 
@@ -105,3 +107,31 @@ def signupPage(request):
 def logoutUser(request):
     logout(request)
     return redirect('home')
+
+
+def productsPage(request):
+    
+    context = {}
+    return render(
+        request,
+        'base/products.html',
+        context
+    )
+    
+def productInfo(request,pk):
+    product = Product.objects.get(id=pk)
+    
+    if request.method == 'POST':
+        
+    
+    
+    
+    
+    context = {
+        'product':product
+    }
+    return render(
+        request,
+        'base/product-info.html',
+        context
+    )

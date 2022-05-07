@@ -1,0 +1,131 @@
+{% extends 'main.html' %}
+
+{% block content %}
+    <body>
+
+<!-- featured categories -->
+<div class="categories">
+    <div class="small-container">
+        <div class="row">
+            <div class="col-3">
+                <img src="img/product-img/product-1.jpg">
+            </div>
+            <div class="col-3">
+                <img src="img/product-img/product-2.jpg">
+            </div>
+            <div class="col-3">
+                <img src="img/product-img/product-3.jpg">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- featured products -->
+    <div class="small-container">
+        <h2 class="title">Featured Products</h2>
+        <div class="row">
+            {% for product in products %}
+            <div class="col-4">
+                <img src={{product.image}}>
+                <h4>{{product.name}}</h4>
+                <div class="rating">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-o"></i>
+                </div>
+                <p>{{product.price}}</p>
+            </div>
+            {% endfor %}
+            
+        </div>
+        <h2 class="title">Latest Products</h2>
+        <div class="row">
+            {% for product in products_latest %}
+            <div class="col-4">
+                <img src="img/product-img/product-5.jpg">
+                <h4>{{product.name}}</h4>
+                <div class="rating">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-o"></i>
+                </div>
+                <p>{{product.price}}</p>
+                
+                <a href="{% url 'product-info' product.id %}">Xem </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+<!-- Offer -->
+<div class="offer">
+    <div class="small-container">
+        <div class="row">
+            <div class="col-2">
+                <img src="img/product-img/product-13.jpg" class="offer-img">
+            </div>
+            <div class="col-2">
+                <p>San pham HOT</p>
+                <h1>Khau trang</h1>
+                <small>Đeo khẩu trang là một công cụ sức khỏe công cộng quan trọng để ngăn chặn sự lây lan của COVID-19 và cần nhớ rằng bất kỳ khẩu trang nào cũng tốt hơn là không có khẩu trang.</small>
+                
+                <br><a href="" class="btn">Buy Now &#8594;</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- testimonial -->
+<div class="testimonial">
+    <div class="small-container">
+        <div class="row">
+            <div class="col-3">
+                <i class="fa fa-quote-left"></i>
+                <p>Khẩu trang và mặt nạ có hiệu quả làm giảm tình trạng lây truyền SARS-CoV-2, loại vi-rút gây bệnh COVID-19, khi được đeo liên tục và đúng cách.</p>
+                <div class="rating">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-o"></i>
+                </div>
+                <img src="img/product-img/user-2.jpg">
+                <h3>Thao Hien</h3>
+            </div>
+            <div class="col-3">
+                <i class="fa fa-quote-left"></i>
+                <p>Khẩu trang và mặt nạ có hiệu quả làm giảm tình trạng lây truyền SARS-CoV-2, loại vi-rút gây bệnh COVID-19, khi được đeo liên tục và đúng cách.</p>
+                <div class="rating">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-o"></i>
+                </div>
+                <img src="img/product-img/user-2.jpg">
+                <h3>Thao Hien</h3>
+            </div>
+            <div class="col-3">
+                <i class="fa fa-quote-left"></i>
+                <p>Khẩu trang và mặt nạ có hiệu quả làm giảm tình trạng lây truyền SARS-CoV-2, loại vi-rút gây bệnh COVID-19, khi được đeo liên tục và đúng cách.</p>
+                <div class="rating">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-o"></i>
+                </div>
+                <img src="img/product-img/user-2.jpg">
+                <h3>Thao Hien</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    </body>
+    {% endblock content %}
+</html>

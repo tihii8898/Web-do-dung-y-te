@@ -13,7 +13,7 @@ class Product(models.Model):
     category = models.CharField(max_length=200,null=False,blank=False)
     countInStock = models.IntegerField(null=True,blank=True,default=0)
     createAt = models.DateTimeField(auto_now_add=True)
-    _id = models.AutoField(primary_key=True,editable=False)
+    id = models.AutoField(primary_key=True,editable=False)
     
     def __str__(self) -> str:
         return self.name
@@ -31,7 +31,7 @@ class Order(models.Model):
     deliveredAt = models.DateTimeField(auto_now_add=False,null=True,blank=True)
     createAt = models.DateTimeField(auto_now_add=True)
     
-    _id = models.AutoField(primary_key=True,editable=False)
+    id = models.AutoField(primary_key=True,editable=False)
 
     def __str__(self) -> str:
         return str(self._id)
@@ -44,7 +44,7 @@ class OrderItem(models.Model):
     price = models.DecimalField(max_digits=7,decimal_places=2,null=True,blank=True)
     name = models.CharField(max_length=200,null = True,blank=True)
     image = models.CharField(max_length=200,null = True,blank=True)
-    _id = models.AutoField(primary_key=True,editable=False)
+    id = models.AutoField(primary_key=True,editable=False)
     
     def __str__(self) -> str:
         return self.name
@@ -58,7 +58,7 @@ class ShippingAddress(models.Model):
     portalCode = models.IntegerField(null=True,blank=True)
     country = models.CharField(max_length=200,null=True,blank=True)
     shippingPrice = models.DecimalField(max_digits=7,decimal_places=2,null=True,blank=True)
-    _id = models.AutoField(primary_key=True,editable=False)
+    id = models.AutoField(primary_key=True,editable=False)
     
     
     def __str__(self) -> str:
