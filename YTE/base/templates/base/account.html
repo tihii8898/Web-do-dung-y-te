@@ -24,12 +24,13 @@
                             name = 'username'>
                             <input type="password" placeholder="Password"
                             name='password'>
+                            
                             <button type="submit" class="btn"> Login </button>
                             <a href="">Fotgot password</a>
                         </form>
                         <div class="action">
                             <p>Chưa có tài khoản ? </p>
-                            <a href="{% url 'signup' %}">=> Đăng kí <=</a>
+                            <a href="{% url 'signup' %}?next={{nextFromLG}}">=> Đăng kí <=</a>
                         </div>
                     {% else %}
                         <form id="xRegForm" method='POST'>
@@ -44,6 +45,7 @@
                             onChange='checkPass()'>
                             <input type="email" name="email" id="email"
                             placeholder='Email'>
+                            <input type="hidden" name="next" value='{{nextFromLG}}'>
                             <button type="submit" class="btn"
                             id='regSubmit'> Register </button>
                         </form>

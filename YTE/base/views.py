@@ -3,13 +3,16 @@ from email import message
 from functools import reduce
 from math import prod
 from unicodedata import category
+from wsgiref.util import request_uri
 from django.db.models import Q
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+from django.urls import re_path
 from .models import *
 
 
@@ -68,9 +71,7 @@ def cart(request):
 
 def loginPage(request):
     page = 'login'
-    if request.user.is_authenticated:
-        return redirect('home')
-
+    next= request.GET.get('next','/')
     if request.method == 'POST':
         username = request.POST.get('username').lower()
         password = request.POST.get('password')
@@ -89,12 +90,13 @@ def loginPage(request):
 
         if user is not None:
             login(request, user)
-            return redirect('home')
+            return redirect(next)
         else:
             messages.error(
                 request, 'Tên đăng nhập hoặc mật khẩu không hợp lệ ! ! !')
 
     context = {
+        'nextFromLG':next,
         'page': page,
     }
     return render(
@@ -105,20 +107,23 @@ def loginPage(request):
 
 
 def signupPage(request):
-
+    next= request.GET.get('next','/')
+    print('#########',next)
     if request.method == 'POST':
         username= request.POST['username']
         password1= request.POST['password1']
         password2= request.POST['password2']
         email= request.POST['email']
         # else:
-        #     messages.error(
-        #         request, 'Có lỗi xảy ra trong quá trình đăng kí, xin hãy thử lại T.T ')
-        user = User.objects.create_user(username,email,password1)
-        user.username= user.username.lower()
-        user.save()
-        login(request,user)
-        return redirect('home')
+        try:
+            user = User.objects.create_user(username,email,password1)
+            user.username= user.username.lower()
+            user.save()
+            login(request,user)
+            return redirect(next)
+        except:
+            messages.error(
+                request, 'Có lỗi xảy ra trong quá trình đăng kí, xin hãy thử lại T.T ')
     context = {
         
 
@@ -151,9 +156,13 @@ def productsPage(request):
 def productInfo(request, pk):
     product = Product.objects.get(id=pk) 
     query = Q(category = product.category)
-    relate_products = Product.objects.all().filter(query)
-    order, created = Order.objects.get_or_create(user=request.user)
+    relate_products = Product.objects.all().filter(query)[:5]
     if request.method == 'POST':
+        # next = request.POST.get('next')
+        # print('------ PRE: {} ------'.format(next))
+        # if not request.user.is_authenticated:
+        #     return redirect('login')
+        order, created = Order.objects.get_or_create(user=request.user)
         OrderItem.objects.create(
             product=product,
             order=order,

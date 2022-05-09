@@ -11,7 +11,15 @@
                         <li><a href="{% url 'products-page'%}">Product </a></li>
                         <li><a href="">About </a></li>
                         <li><a href="">Contact </a></li>
-                        <li><a href="{% url 'login' %}">Account </a></li>
+                        {% if request.user.is_authenticated %}
+                            <li>{{request.user}}</li>
+                            <li>
+                                <a href="{% url 'logout' %}">OUT</a>
+                            </li>
+                        {% else %}
+                            <li><a href="{% url 'login' %}?next={{request.path}}" 
+                            >Account </a></li>
+                        {% endif %}
                     </ul>
                 </nav>
                 <a href="{% url 'cart' %}">
