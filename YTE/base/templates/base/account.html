@@ -1,0 +1,111 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- account-page -->
+<div class="account-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-2">
+                <img src="{% static 'images/bg-img/'%}bg-6.jpg" width="100%">
+            </div>
+            <div class="col-2">
+                <div class="form-container">
+                     <div class="form-btn">
+                        <span onclick='login()'>Login</span>
+                        <span onclick='register()'>Register</span>
+                        <hr id="Indicator">
+                    </div> 
+                    {% if page == 'login' %}
+                        <form id="xLoginForm" method='POST'>
+                            {% csrf_token %}
+                            <input type="text" placeholder="Username"
+                            name = 'username'>
+                            <input type="password" placeholder="Password"
+                            name='password'>
+                            <button type="submit" class="btn"> Login </button>
+                            <a href="">Fotgot password</a>
+                        </form>
+                        <div class="action">
+                            <p>Chưa có tài khoản ? </p>
+                            <a href="{% url 'signup' %}">=> Đăng kí <=</a>
+                        </div>
+                    {% else %}
+                        <form id="xRegForm" method='POST'>
+                            {% csrf_token %}
+                            <input type="text" name="username" id="username"
+                            placeholder='Username'>
+                            <input type="password" name="password1" id="password1"
+                            placeholder='Password'
+                            onChange='checkPass()'>
+                            <input type="password" name="password2" id="password2"
+                            placeholder='Confirm Password'
+                            onChange='checkPass()'>
+                            <input type="email" name="email" id="email"
+                            placeholder='Email'>
+                            <button type="submit" class="btn"
+                            id='regSubmit'> Register </button>
+                        </form>
+                        <div class="action">
+                            <p>Đã có tài khoản ? </p>
+                            <a href="{% url 'login' %}">=> Đăng nhập <=</a>
+                        </div>
+                    {% endif %}
+                </divsetCustomValidity>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    let password = document.getElementById('password1')
+    let passwordConfirm = document.getElementById('password2')
+    let button = document.getElementById('regSubmit')
+    checkPass = () => {
+
+        if (passwordConfirm.value !== password.value){
+            passwordConfirm.setCustomValidity('Password do not match !')
+            
+        }
+        else{
+            passwordConfirm.setCustomValidity('')
+            
+        }
+        
+    }
+
+
+</script>
+<!-- js for toggle menu -->
+<script>
+        var MenuItems = document.getElementById("MenuItems");
+        MenuItems.style.maxHeight = "0px";
+        function menutoggle(){
+            if(MenuItems.style.maxHeight == "0px")
+            {
+                MenuItems.style.maxHeight = "200px"
+            }
+            else{
+                MenuItems.style.maxHeight = "0px"
+            }
+        }
+</script>
+<!-- js for toggle form -->
+<script>
+    var LoginForm = document.getElementById("LoginForm");
+    var RegForm = document.getElementById("RegForm");
+    var Indicator = document.getElementById("Indicator");
+    function register(){
+        RegForm.style.transform = "translateX(0px)";
+        LoginForm.style.transform = "translateX(0px)";
+        Indicator.style.transform = "translateX(100px)";
+
+    }
+    function login(){
+        RegForm.style.transform = "translateX(300px)";
+        LoginForm.style.transform = "translateX(300px)";
+        Indicator.style.transform = "translateX(0px)";
+    }
+</script>
+
+{% endblock content %}

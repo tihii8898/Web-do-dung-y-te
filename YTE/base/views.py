@@ -12,22 +12,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from .models import *
 
-from django import template
-register = template.Library()
 
-@register.filter
-def mul(value,arg):
-    '''
-    hàm nhân dùng cho cart subtotal
-    '''
-    try: 
-        value = int(value)
-        arg = int(arg)
-        if arg: 
-            return value * arg
-    except:
-        pass
-    return ''
 # Create your views here.
 
 
@@ -114,33 +99,33 @@ def loginPage(request):
     }
     return render(
         request,
-        'base/login-signup.html',
+        'base/account.html',
         context
     )
 
 
 def signupPage(request):
-    form = UserCreationForm()
 
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save(commit=False)
-            user.username = user.username.lower()
-            user.save()
-            login(request, user)
-            return redirect('home')
-        else:
-            messages.error(
-                request, 'Có lỗi xảy ra trong quá trình đăng kí, xin hãy thử lại T.T ')
-
+        username= request.POST['username']
+        password1= request.POST['password1']
+        password2= request.POST['password2']
+        email= request.POST['email']
+        # else:
+        #     messages.error(
+        #         request, 'Có lỗi xảy ra trong quá trình đăng kí, xin hãy thử lại T.T ')
+        user = User.objects.create_user(username,email,password1)
+        user.username= user.username.lower()
+        user.save()
+        login(request,user)
+        return redirect('home')
     context = {
-        'form': form
+        
 
     }
     return render(
         request,
-        'base/login-signup.html',
+        'base/account.html',
         context
 
 
