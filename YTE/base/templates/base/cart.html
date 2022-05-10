@@ -1,5 +1,10 @@
 {% extends 'main.html' %} {% load static %} {% block content %}
 <!-- cart items details -->
+
+{% if orderItem_set == 0 %}
+  <h2>không có sản phẩm nào trong giỏ hàng</h2>
+  
+{% else %}
 <div class="small-container cart-page">
   <table>
     <tr>
@@ -45,7 +50,16 @@
         <td id = 'total'></td>
       </tr>
     </table>
+    
   </div>
+  {% if orderItem_set.count %}
+  <div>
+    
+    <a href="{% url 'thanh-toan' %}"
+    class='btn'
+    >Thanh toán</a>
+  </div>
+  {% endif %}
 </div>
 
 <script>
@@ -54,4 +68,6 @@
     let total = document.getElementById('total')
     total.innerHTML = parseInt(subTotal.innerHTML) + parseInt(tax.innerHTML)
 </script>
+{% endif %}
+<a href="{% url 'products-page' %}">Tiếp tục mua sắm =>></a>
 {% endblock content %}

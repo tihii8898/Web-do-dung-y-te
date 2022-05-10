@@ -1,6 +1,8 @@
 from atexit import register
+from audioop import add
 from email import message
 from functools import reduce
+from itertools import count
 from math import prod
 from unicodedata import category
 from wsgiref.util import request_uri
@@ -37,31 +39,36 @@ def homePage(request):
 @login_required(login_url='/login')
 def cart(request):
     user = request.user
-    order = Order.objects.get(user= user)
-    orderItem_set = order.orderitem_set.all()
+    try:
+        order = Order.objects.get(user= user)
+        orderItem_set = order.orderitem_set.all()
+    except Order.DoesNotExist:
+        order = None
+        orderItem_set = 0
+        subTotal = 0
+    if orderItem_set != 0:
+        if order.orderitem_set.all().count() ==0:
+            subTotal=0
+        elif order.orderitem_set.all().count() <2:
+            subTotal = orderItem_set[0].price * orderItem_set[0].count
+        else:
+            subTotal = reduce(lambda x,y: x.price * x.count + y.price*y.count , orderItem_set)
+
     
-    if order.orderitem_set.all().count() ==0:
-        subTotal=0
-    elif order.orderitem_set.all().count() <2:
-        subTotal = orderItem_set[0].price * orderItem_set[0].count
-    else:
-        subTotal = reduce(lambda x,y: x.price * x.count + y.price*y.count , orderItem_set)
-    print('Item Count: {}'.format(order.orderitem_set.all().count()))
-    
-    
+    if request.method == 'POST':
+        id = request.POST.get('id')
+        delete_orderItem = OrderItem.objects.get(id = id)
+        delete_orderItem.delete()
+        print(orderItem_set.count(),'COUNT')
+        if orderItem_set.count() ==0:
+            orderItem_set = 0
+        print(orderItem_set)
+        return redirect('cart')
     context = {
         'orderItem_set' : orderItem_set,
         'subTotal': subTotal,
     }
 
-    if request.method == 'POST':
-        id = request.POST.get('id')
-        print('ID: ',id)
-        print('asdasd')
-        delete_orderItem = OrderItem.objects.get(id = id)
-        delete_orderItem.delete()
-        return redirect('cart')
-    
     return render(
         request,
         'base/cart.html',
@@ -108,7 +115,6 @@ def loginPage(request):
 
 def signupPage(request):
     next= request.GET.get('next','/')
-    print('#########',next)
     if request.method == 'POST':
         username= request.POST['username']
         password1= request.POST['password1']
@@ -119,7 +125,6 @@ def signupPage(request):
             user = User.objects.create_user(username,email,password1)
             user.username= user.username.lower()
             user.save()
-            login(request,user)
             return redirect(next)
         except:
             messages.error(
@@ -180,5 +185,48 @@ def productInfo(request, pk):
     return render(
         request,
         'base/product-details.html',
+        context
+    )
+
+
+def paymentPage(request):
+    user = request.user
+    order,created = Order.objects.get_or_create(user = user)
+    orderItem_set = order.orderitem_set.all()
+    shippingAddress = ShippingAddress.objects.get_or_create(order=order)
+    if orderItem_set.count()<2:
+        subTotal = orderItem_set[0].price
+    else:
+        subTotal = reduce(lambda x,y: x.price * x.count + y.price*y.count , orderItem_set)
+    
+    
+    if request.method == 'POST':
+        firstName = request.POST.get('firstname')
+        lastName = request.POST.get('lastname')
+        phoneNum = request.POST.get('phonenumber')
+        email = request.POST.get('email')
+        address = request.POST.get('address')
+        city = request.POST.get('city')
+        payment = request.POST.get('paymentMethod')
+        if user.first_name != firstName or user.last_name != lastName or user.email!= email:    
+            user.first_name = firstName
+            user.last_name = lastName
+            user.email = email
+            user.save()
+        shippingAddress.address = address
+        shippingAddress.city = city
+        shippingAddress.phoneNumber = phoneNum
+        order.paymentMethod = payment
+        order.save()
+        shippingAddress.save()
+    context={
+        'shipping':shippingAddress,
+        'orderItem_set':orderItem_set,
+        'order':order,
+        'subTotal':subTotal,
+    }
+    return render(
+        request,
+        'base/thanhtoan.html',
         context
     )

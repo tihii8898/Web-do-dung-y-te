@@ -10,5 +10,6 @@ urlpatterns = [
     path('signup',views.signupPage,name='signup'),
     path('logout',views.logoutUser,name='logout'),
     path('products',views.productsPage,name='products-page'),
-    path("product-info/<int:pk>", views.productInfo, name="product-info")
+    path("product-info/<int:pk>", views.productInfo, name="product-info"),
+    path('thanh-toan',views.paymentPage,name='thanh-toan')
 ]
