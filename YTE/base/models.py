@@ -17,7 +17,7 @@ class Product(models.Model):
     id = models.AutoField(primary_key=True,editable=False)
     
     def __str__(self) -> str:
-        return self.name
+        return str(self.name)
     
 
 
@@ -27,7 +27,7 @@ class Order(models.Model):
         ('off','Pay when received'),
     ]
     
-    user = models.OneToOneField(User,on_delete=models.SET_NULL,null=True)
+    user = models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
     paymentMethod = models.CharField(max_length=200,null = True,blank=True)
     shippingPrice = models.DecimalField(max_digits=7,decimal_places=2,null=True,blank=True,default=30000)
     totalPrice = models.DecimalField(max_digits=7,decimal_places=2,null=True,blank=True)
@@ -35,6 +35,8 @@ class Order(models.Model):
     paidAt = models.DateTimeField(auto_now_add=False,null=True,blank=True)
     isDelivered = models.BooleanField(default=False)
     deliveredAt = models.DateTimeField(auto_now_add=False,null=True,blank=True)
+    isConfirmed = models.BooleanField(default=False)
+    confirmedAt = models.DateTimeField(auto_now=True,null=True,blank=True)
     createAt = models.DateTimeField(auto_now_add=True)
     
     id = models.AutoField(primary_key=True,editable=False)
@@ -54,7 +56,7 @@ class OrderItem(models.Model):
     id = models.AutoField(primary_key=True,editable=False)
     
     def __str__(self) -> str:
-        return self.name
+        return str(self.name)
     
     
     
@@ -67,4 +69,4 @@ class ShippingAddress(models.Model):
     
     
     def __str__(self) -> str:
-        return self.id
+        return str(self.id)

@@ -2,6 +2,7 @@
 
 <a href="{{request.META.HTTP_REFERER}}">Quay lại</a>
 
+
 <form action="" method="POST">
   {% csrf_token %}
   <div>
@@ -29,7 +30,11 @@
     name="phonenumber"
     id="phonenumber"
     placeholder="Số điện thoại"
-    value='{{shipping.phoneNumber}}'
+    {% if shipping.phoneNumber != None %}
+    value="{{shipping.phoneNumber}}"
+  {% else %}
+    value=""
+  {% endif %}
   />
   <label for="email">Email: </label>
   <input
@@ -46,7 +51,11 @@
     name="address"
     id="address"
     placeholder="Địa chỉ nhận hàng"
-    value="{{shipping.address}}"
+    {% if shipping.address != None %}
+      value="{{shipping.address}}"
+    {% else %}
+      value=""
+    {% endif %}
   />
   <label for="city">City: </label>
   <input
@@ -55,13 +64,17 @@
     name="city"
     id="city"
     placeholder="Thành phố đang sống"
-    value="{{shipping.city}}"
+    {% if shipping.city != None %}
+      value="{{shipping.city}}"
+    {% else %}
+      value=""
+    {% endif %}
   />
   <label for="paymentMethod">Payment Method: </label>
   
   <select name="paymentMethod" id="paymentMethod">
-      <option value="Banking">Banking</option>
-      <option value="Pay when received  ">Pay when received</option>
+    <option value="Pay when received  ">Pay when received</option>
+    <option value="Banking">Banking</option>
   </select>
 
   <div>

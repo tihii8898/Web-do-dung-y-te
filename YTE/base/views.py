@@ -40,7 +40,7 @@ def homePage(request):
 def cart(request):
     user = request.user
     try:
-        order = Order.objects.get(user= user)
+        order = Order.objects.get(user= user,isConfirmed = False)
         orderItem_set = order.orderitem_set.all()
     except Order.DoesNotExist:
         order = None
@@ -59,7 +59,6 @@ def cart(request):
         id = request.POST.get('id')
         delete_orderItem = OrderItem.objects.get(id = id)
         delete_orderItem.delete()
-        print(orderItem_set.count(),'COUNT')
         if orderItem_set.count() ==0:
             orderItem_set = 0
         print(orderItem_set)
@@ -125,6 +124,7 @@ def signupPage(request):
             user = User.objects.create_user(username,email,password1)
             user.username= user.username.lower()
             user.save()
+            login(request,user)
             return redirect(next)
         except:
             messages.error(
@@ -167,7 +167,7 @@ def productInfo(request, pk):
         # print('------ PRE: {} ------'.format(next))
         # if not request.user.is_authenticated:
         #     return redirect('login')
-        order, created = Order.objects.get_or_create(user=request.user)
+        order, created = Order.objects.get_or_create(user=request.user,isConfirmed = False)
         OrderItem.objects.create(
             product=product,
             order=order,
@@ -191,11 +191,11 @@ def productInfo(request, pk):
 
 def paymentPage(request):
     user = request.user
-    order,created = Order.objects.get_or_create(user = user)
+    order = Order.objects.get(Q(user=user) & Q(isConfirmed = False))
     orderItem_set = order.orderitem_set.all()
-    shippingAddress = ShippingAddress.objects.get_or_create(order=order)
+    shippingAddress,create = ShippingAddress.objects.get_or_create(order=order)
     if orderItem_set.count()<2:
-        subTotal = orderItem_set[0].price
+        subTotal = orderItem_set[0].price * orderItem_set[0].count
     else:
         subTotal = reduce(lambda x,y: x.price * x.count + y.price*y.count , orderItem_set)
     
@@ -217,6 +217,7 @@ def paymentPage(request):
         shippingAddress.city = city
         shippingAddress.phoneNumber = phoneNum
         order.paymentMethod = payment
+        order.isConfirmed = True
         order.save()
         shippingAddress.save()
     context={
@@ -228,5 +229,19 @@ def paymentPage(request):
     return render(
         request,
         'base/thanhtoan.html',
+        context
+    )
+    
+    
+def myOrdersPage(request):
+    user = request.user
+    orders = user.order_set.all().order_by('-createAt')
+    
+    context = {
+        'orders': orders
+    }
+    return render(
+        request,
+        'base/my-orders.html',
         context
     )

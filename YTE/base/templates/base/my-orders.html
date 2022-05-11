@@ -1,0 +1,21 @@
+{% extends 'main.html' %}
+{% load static %}
+
+
+
+{% block content %}
+
+
+<h1>My Orders</h1>
+
+{% for order in orders %}
+    <h2>{{order}}</h2>
+    {% if order.isConfirmed %}
+        <p>Status: Đã xác nhận</p>
+    {% else %}
+        <p>Status: Chưa xác nhận</p>
+    {% endif %}
+
+{% endfor %}
+
+{% endblock content %}
