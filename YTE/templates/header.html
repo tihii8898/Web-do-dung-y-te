@@ -20,6 +20,8 @@
                             <li><a href="{% url 'login' %}?next={{request.path}}" 
                             >Account </a></li>
                         {% endif %}
+                        <li><input type="text" placeholder="Search.."></li>
+
                     </ul>
                 </nav>
                 <a href="{% url 'cart' %}">

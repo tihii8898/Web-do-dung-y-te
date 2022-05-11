@@ -1,7 +1,16 @@
-{% extends 'main.html' %}
-{% load static %}
 
-{% block content %}
+{% load static %}
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Nhom 9 | YTE</title>
+        <link rel="stylesheet" href="{% static 'css/style.css' %}"> 
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;500;600;700&display=swap" rel="stylesheet">  
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css">
+    </head>
+<body>
 
 <!-- account-page -->
 <div class="account-page">
@@ -15,7 +24,11 @@
                      <div class="form-btn">
                         <span onclick='login()'>Login</span>
                         <span onclick='register()'>Register</span>
-                        <hr id="Indicator">
+                        {% if page == 'login' %}
+                        <hr id="Indicator" style="transform : translateX(0px)">
+                        {%else%}
+                        <hr id="Indicator" style="transform : translateX(100px)">
+                        {%endif%}
                     </div> 
                     {% if page == 'login' %}
                         <form id="xLoginForm" method='POST'>
@@ -110,4 +123,6 @@
     }
 </script>
 
-{% endblock content %}
+
+</body>
+</html>
