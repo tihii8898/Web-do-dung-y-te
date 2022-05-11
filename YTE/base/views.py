@@ -1,20 +1,9 @@
-from atexit import register
-from audioop import add
-from email import message
-from functools import reduce
-from itertools import count
-from math import prod
-from unicodedata import category
-from wsgiref.util import request_uri
 from django.db.models import Q
-from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
-from django.urls import re_path
 from .models import *
 
 
@@ -23,7 +12,7 @@ from .models import *
 
 def homePage(request):
     products = Product.objects.all()[:5]
-    products_latest = Product.objects.all().order_by('createAt').reverse()[:5]
+    products_latest = Product.objects.all().order_by('-createAt')[:5]
     context = {
         'products': products,
         'products_latest': products_latest
@@ -39,20 +28,22 @@ def homePage(request):
 @login_required(login_url='/login')
 def cart(request):
     user = request.user
+    subTotal = 0
     try:
         order = Order.objects.get(user= user,isConfirmed = False)
         orderItem_set = order.orderitem_set.all()
     except Order.DoesNotExist:
         order = None
         orderItem_set = 0
-        subTotal = 0
+        subTotal = 0.0
     if orderItem_set != 0:
         if order.orderitem_set.all().count() ==0:
-            subTotal=0
+            subTotal= 0.0
         elif order.orderitem_set.all().count() <2:
             subTotal = orderItem_set[0].price * orderItem_set[0].count
         else:
-            subTotal = reduce(lambda x,y: x.price * x.count + y.price*y.count , orderItem_set)
+            for item in orderItem_set:
+                subTotal += item.price*item.count
 
     
     if request.method == 'POST':
@@ -61,7 +52,6 @@ def cart(request):
         delete_orderItem.delete()
         if orderItem_set.count() ==0:
             orderItem_set = 0
-        print(orderItem_set)
         return redirect('cart')
     context = {
         'orderItem_set' : orderItem_set,
@@ -191,13 +181,15 @@ def productInfo(request, pk):
 
 def paymentPage(request):
     user = request.user
+    subTotal = 0
     order = Order.objects.get(Q(user=user) & Q(isConfirmed = False))
     orderItem_set = order.orderitem_set.all()
     shippingAddress,create = ShippingAddress.objects.get_or_create(order=order)
     if orderItem_set.count()<2:
         subTotal = orderItem_set[0].price * orderItem_set[0].count
     else:
-        subTotal = reduce(lambda x,y: x.price * x.count + y.price*y.count , orderItem_set)
+        for item in orderItem_set:
+                subTotal += item.price*item.count
     
     
     if request.method == 'POST':
@@ -208,6 +200,7 @@ def paymentPage(request):
         address = request.POST.get('address')
         city = request.POST.get('city')
         payment = request.POST.get('paymentMethod')
+        totalPrice = request.POST.get('sumTotal')
         if user.first_name != firstName or user.last_name != lastName or user.email!= email:    
             user.first_name = firstName
             user.last_name = lastName
@@ -217,9 +210,11 @@ def paymentPage(request):
         shippingAddress.city = city
         shippingAddress.phoneNumber = phoneNum
         order.paymentMethod = payment
+        order.totalPrice = totalPrice
         order.isConfirmed = True
         order.save()
         shippingAddress.save()
+        return redirect('my-orders')
     context={
         'shipping':shippingAddress,
         'orderItem_set':orderItem_set,
@@ -232,7 +227,7 @@ def paymentPage(request):
         context
     )
     
-    
+@login_required(login_url='/login')
 def myOrdersPage(request):
     user = request.user
     orders = user.order_set.all().order_by('-createAt')

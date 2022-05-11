@@ -1,21 +1,14 @@
-{% extends 'main.html' %}
-{% load static %}
-
-
-
-{% block content %}
-
+{% extends 'main.html' %} {% load static %} {% block content %}
 
 <h1>My Orders</h1>
+{% if orders.count == 0 %}
 
-{% for order in orders %}
-    <h2>{{order}}</h2>
-    {% if order.isConfirmed %}
-        <p>Status: Đã xác nhận</p>
-    {% else %}
-        <p>Status: Chưa xác nhận</p>
-    {% endif %}
+<h2>bạn hiện chưa có đơn hàng nào hết ! ! !</h2>
 
-{% endfor %}
-
-{% endblock content %}
+{% else %} {% for order in orders %}
+<h2>{{order}}</h2>
+{% if order.isConfirmed %}
+<p>Status: Đã xác nhận</p>
+{% else %}
+<p>Status: Chưa xác nhận</p>
+{% endif %} {% endfor %} {% endif %} {% endblock content %}
