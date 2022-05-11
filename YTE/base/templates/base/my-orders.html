@@ -8,6 +8,46 @@
 
 <h1>My Orders</h1>
 
+<table class="table-order">
+    <tr>
+      <th>Mã đơn hàng</th>
+      <th>Xác nhận</th>
+      <th>Thanh toán</th>
+      <th>Vận chuyển</th>
+    </tr>
+    <tr>
+        <td>Alfreds Futterkiste</td>
+        <td>Maria Anders</td>
+        <td>Germany</td>
+        <td>UK</td>
+      </tr>
+      <tr>
+        <td>Berglunds snabbköp</td>
+        <td>Christina Berglund</td>
+        <td>Sweden</td>
+        <td>UK</td>
+      </tr>
+      <tr>
+        <td>Centro comercial Moctezuma</td>
+        <td>Francisco Chang</td>
+        <td>Mexico</td>
+        <td>UK</td>
+      </tr>
+      <tr>
+        <td>Ernst Handel</td>
+        <td>Roland Mendel</td>
+        <td>Austria</td>
+        <td>UK</td>
+      </tr>
+      <tr>
+        <td>Island Trading</td>
+        <td>Helen Bennett</td>
+        <td>UK</td>
+        <td>UK</td>
+      </tr>
+</table>
+
+
 {% for order in orders %}
     <h2>{{order}}</h2>
     {% if order.isConfirmed %}

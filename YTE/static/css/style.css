@@ -30,6 +30,16 @@ a{
 p{
     color: #555
 }
+
+.login-btn{
+    display: inline-block;
+    background: #ff523b;
+    color: white;
+    padding: 8px 30px;
+    border-radius: 30px;
+    transition: background 0.5s;
+}
+
 .container{
     max-width: 1300px;
     margin:auto;
@@ -382,7 +392,13 @@ th:last-child{
     border: none;
     font-size: 15px;
   }
-
+/* order */
+.table-order{
+    width: 100%;
+}
+.table-order th {
+    height: 70px;
+  }
 /* account-page */
 .account-page{
     padding: 50px 0;
@@ -460,6 +476,7 @@ form a{
     border: none;
     font-size: 15px;
   }
+
 /* media query for menu */
 @media only screen and (max-width: 800px){
     nav ul{
