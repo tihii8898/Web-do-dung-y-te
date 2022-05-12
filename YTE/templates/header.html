@@ -3,7 +3,7 @@
         <div class="container">
             <div class="navbar">
                 <div class="logo">
-                    <img src="{% static 'images/core-img/' %}logo.png" width="125px">
+                    <a href="{% url 'home' %}"> <img src="{% static 'images/core-img/' %}logo.png" width="125px"></a>
                 </div>
                 <nav>
                     <ul>
@@ -27,18 +27,10 @@
                 <a href="{% url 'cart' %}">
                     <img src="{% static 'images/bg-img/' %}cart.png" width="30px" height="30px">
                 </a>
-                <a href="{% url 'my-orders' %}"
+                <a href="{% url 'cart' %}"
                     style='margin-left:20px'
                 >My Orders</a>
             </div> 
-            <div class="row">
-                <div class="col-2">
-                    <h1>Give a new<br> Face mask</h1>
-                    <a href="" class="btn">Khám phá ngay &#8594;</a>
-                </div>
-                <div class="col-2">
-                    <img src="{% static 'images/bg-img/' %}bg-6.jpg">
-                </div>
-            </div>
+
         </div>
     </div>
