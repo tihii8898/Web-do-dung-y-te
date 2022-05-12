@@ -38,7 +38,7 @@
                         </form>
                         <div class="action">
                             <p>Chưa có tài khoản ? </p>
-                            <a href="{% url 'signup' %}?next={{nextFromLG}}">=> Đăng kí <=</a>
+                            <a href="{% url 'signup' %}?next={{nextFromLG}}"><button class="reg-btn">Đăng Ký</button></a>
                         </div>
                     {% else %}
                         <form id="xRegForm" method='POST'>
@@ -59,7 +59,7 @@
                         </form>
                         <div class="action">
                             <p>Đã có tài khoản ? </p>
-                            <a href="{% url 'login' %}">=> Đăng nhập <=</a>
+                            <a href="{% url 'login' %}"> <button class="login-btn">Đăng Nhập</button></a>
                         </div>
                     {% endif %}
                 </divsetCustomValidity>

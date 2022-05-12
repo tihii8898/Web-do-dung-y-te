@@ -1,14 +1,56 @@
-{% extends 'main.html' %} {% load static %} {% block content %}
+{% extends 'main.html' %} 
+{% load static %} 
 
-<h1>My Orders</h1>
-{% if orders.count == 0 %}
 
-<h2>bạn hiện chưa có đơn hàng nào hết ! ! !</h2>
+{% block content %}
 
-{% else %} {% for order in orders %}
-<h2>{{order}}</h2>
-{% if order.isConfirmed %}
-<p>Status: Đã xác nhận</p>
-{% else %}
-<p>Status: Chưa xác nhận</p>
-{% endif %} {% endfor %} {% endif %} {% endblock content %}
+  <h1>My Orders</h1>
+  {% if orders.count == 0 %}
+
+  <h2>bạn hiện chưa có đơn hàng nào hết ! ! !</h2>
+
+  {% else %}
+
+  <table class="table-order">
+      <tr>
+        <th>Mã đơn hàng</th>
+        <th>Xác nhận</th>
+        <th>Thanh toán</th>
+        <th>Vận chuyển</th>
+      </tr>
+      {% for order in orders %}
+        <tr>
+          <td>{{order}}</td>
+          <td id='order-{{order.id}}' 
+            style={% if order.isConfirmed %}
+              'background: #55efc4'
+            {% else %}
+              'background: #ff7675'
+
+            {% endif %}
+          >
+            {% if order.isConfirmed %}
+              Đã xác nhận
+            {% else %}
+              Chưa xác nhận
+            {% endif %}
+          </td>
+          <td>
+            {% if order.paymentMethod == None %}
+              Chưa đặt hàng
+            {% else %}
+
+            {{order.paymentMethod}}</td>
+            {% endif %}
+          <td>
+            {% if order.isDelivered %}
+              {{order.deliveredAt|timesince}}</td>
+            {% else %}
+              Hàng chưa được gửi đi
+            {% endif %}
+        </tr>
+      {% endfor %}
+        
+  </table>
+  {% endif %}
+{% endblock content %}

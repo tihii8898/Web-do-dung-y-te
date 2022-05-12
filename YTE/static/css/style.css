@@ -333,6 +333,7 @@ input:focus{
 table{
     width: 100%;
     border-collapse: collapse;
+    margin:20px
 }
 .cart-info{
     display: flex;
@@ -460,6 +461,8 @@ form a{
     border: none;
     font-size: 15px;
   }
+
+
 /* media query for menu */
 @media only screen and (max-width: 800px){
     nav ul{
