@@ -139,8 +139,13 @@ def logoutUser(request):
 
 
 def productsPage(request):
+    products = Product.objects.all()[:5]
+    products_latest = Product.objects.all().order_by('-createAt')[:5]
+    context = {
+        'products': products,
+        'products_latest': products_latest
+    }
 
-    context = {}
     return render(
         request,
         'base/products.html',
