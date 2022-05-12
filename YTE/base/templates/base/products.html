@@ -1,5 +1,6 @@
 {% extends 'main.html' %}
 {% block content %}
+{% load static %}
     <div class="small-container">
         <div class="row row-2">
             <h2>All Products</h2>
@@ -12,155 +13,24 @@
             </select>
         </div>
         <div class="row">
+            {% for product in products %}
             <div class="col-4">
-                <img src="img/product-img/product-1.jpg">
-                <h4>Nuoc ray tay Purell</h4>
-                <div class="rating">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star-o"></i>
-                </div>
-                <p>$5.0</p>
+              <img src='{% static 'images/product-img/' %}{{product.image}}'>
+              <h4>{{product.name}}</h4>
+              <div class="rating">
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star-o"></i>
+              </div>
+              <p>{{product.price}} VND</p>
+              <a href="{% url 'product-info' product.id %}">Xem </a>
             </div>
-            <div class="col-4">
-                <img src="img/product-img/product-2.jpg">
-                <h4>Nuoc ray tay Purell</h4>
-                <div class="rating">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star-o"></i>
-                </div>
-                <p>$5.0</p>
-            </div>
-            <div class="col-4">
-                <img src="img/product-img/product-3.jpg">
-                <h4>Nuoc ray tay Purell</h4>
-                <div class="rating">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star-o"></i>
-                </div>
-                <p>$5.0</p>
-            </div>
-            <div class="col-4">
-                <img src="img/product-img/product-4.jpg">
-                <h4>Nuoc ray tay Purell</h4>
-                <div class="rating">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star-o"></i>
-                </div>
-                <p>$5.0</p>
-            </div>
+            {% endfor %}
+            
         </div>
-        <div class="row">
-            <div class="col-4">
-                <img src="img/product-img/product-1.jpg">
-                <h4>Nuoc ray tay Purell</h4>
-                <div class="rating">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star-o"></i>
-                </div>
-                <p>$5.0</p>
-            </div>
-            <div class="col-4">
-                <img src="img/product-img/product-2.jpg">
-                <h4>Nuoc ray tay Purell</h4>
-                <div class="rating">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star-o"></i>
-                </div>
-                <p>$5.0</p>
-            </div>
-            <div class="col-4">
-                <img src="img/product-img/product-3.jpg">
-                <h4>Nuoc ray tay Purell</h4>
-                <div class="rating">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star-o"></i>
-                </div>
-                <p>$5.0</p>
-            </div>
-            <div class="col-4">
-                <img src="img/product-img/product-4.jpg">
-                <h4>Nuoc ray tay Purell</h4>
-                <div class="rating">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star-o"></i>
-                </div>
-                <p>$5.0</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-4">
-                <img src="img/product-img/product-1.jpg">
-                <h4>Nuoc ray tay Purell</h4>
-                <div class="rating">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star-o"></i>
-                </div>
-                <p>$5.0</p>
-            </div>
-            <div class="col-4">
-                <img src="img/product-img/product-2.jpg">
-                <h4>Nuoc ray tay Purell</h4>
-                <div class="rating">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star-o"></i>
-                </div>
-                <p>$5.0</p>
-            </div>
-            <div class="col-4">
-                <img src="img/product-img/product-3.jpg">
-                <h4>Nuoc ray tay Purell</h4>
-                <div class="rating">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star-o"></i>
-                </div>
-                <p>$5.0</p>
-            </div>
-            <div class="col-4">
-                <img src="img/product-img/product-4.jpg">
-                <h4>Nuoc ray tay Purell</h4>
-                <div class="rating">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star-o"></i>
-                </div>
-                <p>$5.0</p>
-            </div>
-        </div>
+
         <div class="page-btn">
             <span>1</span>
             <span>2</span>
