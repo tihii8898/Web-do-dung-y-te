@@ -15,7 +15,7 @@
         <div class="row">
             {% for product in products %}
             <div class="col-4">
-              <img src='{% static 'images/product-img/' %}{{product.image}}'>
+                <a href="{% url 'product-info' product.id %}"><img src='{% static 'images/product-img/' %}{{product.image}}'></a>
               <h4>{{product.name}}</h4>
               <div class="rating">
                 <i class="fa fa-star"></i>
@@ -31,12 +31,12 @@
             
         </div>
 
-        <div class="page-btn">
+        {% comment %} <div class="page-btn">
             <span>1</span>
             <span>2</span>
             <span>3</span>
             <span>4</span>
             <span>&#8594</span>
-        </div>
+        </div> {% endcomment %}
     </div>
     {% endblock content %}
