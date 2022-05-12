@@ -1,8 +1,9 @@
 {% extends 'main.html' %} {% load static %} {% block content %}
 
-<a href="{{request.META.HTTP_REFERER}}">Quay lại</a>
 
 
+<div class="container">
+  <a href="{{request.META.HTTP_REFERER}}">Quay lại</a>
 <form action="" method="POST">
   {% csrf_token %}
   <div>
@@ -105,5 +106,5 @@
     sum = parseInt(subTotal.innerHTML) + parseInt(shipPrice.innerHTML)
     sumTotal.value = sum
 </script>
-
+</div>
 {% endblock content %}
