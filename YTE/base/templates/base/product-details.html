@@ -46,7 +46,7 @@
     {% for product in relate_products %}
 
         <div class="col-4">
-        <img src="{% static 'images/product-img/' %}{{product.image}}" />
+          <a href="{% url 'product-info' product.id %}"><img src='{% static 'images/product-img/' %}{{product.image}}'></a>
         <h4>{{product.name}}</h4>
         <div class="rating">
             <i class="fa fa-star"></i>
