@@ -231,7 +231,25 @@ def paymentPage(request):
         'base/thanhtoan.html',
         context
     )
-    
+
+
+def search(request):
+    if request.method == 'GET':   
+        q =  request.GET.get('q')     
+
+        products= Product.objects.filter(name__contains=q)
+    else:
+        products =Product.objects.all()
+    context = {
+        'products': products,
+        'q': q
+    }
+    return render(
+        request,
+        'base/products.html',
+        context
+    )
+
 @login_required(login_url='/login')
 def myOrdersPage(request):
     user = request.user
