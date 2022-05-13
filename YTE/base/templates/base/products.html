@@ -3,7 +3,12 @@
 {% load static %}
     <div class="small-container">
         <div class="row row-2">
+            {%if q%} 
+            <h2>Sản phẩm liên quan tới {{q}}</h2>
+            {%else%}
             <h2>All Products</h2>
+            {%endif%}
+
             <select>
                 <option>Default Shorting</option>
                 <option>Short by price</option>
@@ -12,7 +17,15 @@
                 <option>Short by sale</option>
             </select>
         </div>
+        {%if products%}
+        {%else%}
+            
+            <p>Không có sản phẩm nào<p>
+            <br>
+            
+        {%endif%}
         <div class="row">
+
             {% for product in products %}
             <div class="col-4">
                 <a href="{% url 'product-info' product.id %}"><img src='{% static 'images/product-img/' %}{{product.image}}'></a>
