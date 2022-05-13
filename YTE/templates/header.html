@@ -20,8 +20,9 @@
                             <li><a href="{% url 'login' %}?next={{request.path}}" 
                             >Account </a></li>
                         {% endif %}
-                        <li><input type="text" placeholder="Search.."></li>
-
+                        <li><form action="{%url 'search'%}" method="get">
+                        <input type="text" name="q" placeholder="Search..">
+                        </form></li>
                     </ul>
                 </nav>
                 <a href="{% url 'cart' %}">
