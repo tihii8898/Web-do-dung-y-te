@@ -11,5 +11,6 @@ urlpatterns = [
     path('products',views.productsPage,name='products-page'),
     path("product-info/<int:pk>", views.productInfo, name="product-info"),
     path('thanh-toan',views.paymentPage,name='thanh-toan'),
-    path('my-orders',views.myOrdersPage,name='my-orders')
+    path('my-orders',views.myOrdersPage,name='my-orders'),
+    path('search',views.search,name='search'),
 ]
