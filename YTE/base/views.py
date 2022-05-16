@@ -47,12 +47,21 @@ def cart(request):
 
     
     if request.method == 'POST':
-        id = request.POST.get('id')
-        delete_orderItem = OrderItem.objects.get(id = id)
-        delete_orderItem.delete()
-        if orderItem_set.count() ==0:
-            orderItem_set = 0
-        return redirect('cart')
+        action = request.POST.get('action')
+        if action == 'delete':
+            id = request.POST.get('id')
+            delete_orderItem = OrderItem.objects.get(id = id)
+            delete_orderItem.delete()
+            if orderItem_set.count() ==0:
+                orderItem_set = 0
+            return redirect('cart')
+        else:
+            id = request.POST.get('id')
+            update_orderItem = OrderItem.objects.get(id = id)
+            count = request.POST.get('count')
+            update_orderItem.count = count
+            update_orderItem.save()
+            return redirect('cart')
     context = {
         'orderItem_set' : orderItem_set,
         'subTotal': subTotal,

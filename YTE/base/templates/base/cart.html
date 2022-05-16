@@ -22,13 +22,23 @@
             <br />
             <form action="" method="POST">
               {% csrf_token %}
+              <input type="hidden" name="action" value='delete'>
               <button type="submit">X</button>
               <input name="id" type="hidden" value="{{item.id}}" />
             </form>
+            
           </div>
         </div>
       </td>
-      <td><input type="number" value="{{item.count}}" /></td>
+      <td>
+        <form action="" method="POST">
+          {% csrf_token %}
+          <input name="id" type="hidden" value="{{item.id}}" />
+          <input type="hidden" name="action" value='update'>
+          <input type="number" name='count' value="{{item.count}}" min='1'/>
+          <button type="submit">Update</button>
+        </form>
+      </td>
       <td>{{item.price}}</td>
     </tr>
     {% endfor %}
