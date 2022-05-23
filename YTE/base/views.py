@@ -11,6 +11,10 @@ from .models import *
 
 
 def homePage(request):
+    """Hàm render ra trang chủ
+    input : request
+    output : sản phẩm và sản phẩm mới nhất
+    """
     products = Product.objects.all()[:5]
     products_latest = Product.objects.all().order_by('-createAt')[:5]
     context = {
@@ -27,6 +31,10 @@ def homePage(request):
 
 @login_required(login_url='/login')
 def cart(request):
+    """ Render ra trang Giỏ hàng
+    input : request
+    output : danh sách các sản phẩm trong giỏ hàng, tổng tiền
+    """
     user = request.user
     subTotal = 0
     try:
@@ -75,6 +83,11 @@ def cart(request):
 
 
 def loginPage(request):
+    """ Render trang đăng nhập, xử lý yêu cầu đăng nhập
+    input : request, thông tin đăng nhập
+    output : nếu thông tin đăng nhập đúng, trả về trang chủ, ngược lại trả về lỗi
+    """
+    
     page = 'login'
     next= request.GET.get('next','/')
     if request.method == 'POST':
@@ -112,6 +125,11 @@ def loginPage(request):
 
 
 def signupPage(request):
+    """ Render trang đăng ký, xử lý yêu cầu đăng ký
+    input : request, thông tin đăng ký
+    output : nếu thông tin đăng ký đúng, trả về trang chủ, ngược lại trả về lỗi
+    """
+    
     next= request.GET.get('next','/')
     if request.method == 'POST':
         username= request.POST['username']
@@ -143,11 +161,16 @@ def signupPage(request):
 
 
 def logoutUser(request):
+    """Hàm dùng để đăng xuất, sau khi đăng xuất trả về trang chủ"""
     logout(request)
     return redirect('home')
 
 
 def productsPage(request):
+    """ Hàm để render ra trang sản phẩm
+    input :request
+    output: xuất ra danh sách tất cả sản phẩm
+    """
     products = Product.objects.all()
     products_latest = Product.objects.all().order_by('-createAt')[:5]
     context = {
@@ -163,6 +186,10 @@ def productsPage(request):
 
 
 def productInfo(request, pk):
+    """ Hàm xuất ra trang chi tiết sản phẩm
+    input: request, khóa chính sản phẩm
+    output: chi tiết thông tin sản phẩm
+    """
     product = Product.objects.get(id=pk) 
     query = Q(category = product.category)
     relate_products = Product.objects.all().filter(query)[:5]
@@ -194,6 +221,10 @@ def productInfo(request, pk):
 
 
 def paymentPage(request):
+    """ Hàm xuất ra trang thanh toán
+    input: request, thông tin người dùng nhập vào
+    output: địa chỉ giao hàng, các sản phẩm trong giỏ hàng, đơn hàng, tổng cộng
+    """
     user = request.user
     subTotal = 0
     order = Order.objects.get(Q(user=user) & Q(isConfirmed = False))
@@ -243,6 +274,10 @@ def paymentPage(request):
 
 
 def search(request):
+    """ Hàm tìm kiếm
+    input : request
+    output: sản phẩm liên quan đến từ tìm kiếm
+    """
     if request.method == 'GET':   
         q =  request.GET.get('q')     
 
@@ -261,6 +296,10 @@ def search(request):
 
 @login_required(login_url='/login')
 def myOrdersPage(request):
+    """ Hàm thể hiện tất cả các hóa đơn
+    input: request
+    output: tất cả các order
+    """
     user = request.user
     orders = user.order_set.all().order_by('-createAt')
     
