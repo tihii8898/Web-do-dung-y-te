@@ -6,6 +6,12 @@ from django.contrib.auth.models import User
 
 
 class Product(models.Model):
+    """
+    Model chứa các sản phẩm của cửa hàng
+    Với các thông số khởi tạo bắt buộc: name, price, category
+
+    
+    """
     user = models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
     name = models.CharField(max_length=200,null=False,blank=False)
     description = models.TextField(null=True,blank=True)
@@ -17,15 +23,18 @@ class Product(models.Model):
     id = models.AutoField(primary_key=True,editable=False)
     
     def __str__(self) -> str:
+        """
+        Trả về name của object
+        """
         return str(self.name)
     
 
 
 class Order(models.Model):
-    PAYMENT_METHOD_CHOICES = [
-        ('onl', 'Online'),
-        ('off','Pay when received'),
-    ]
+    """
+    Model chứa các đơn hàng của khách hàng, một khách hàng sẽ có thể có nhiều đơn hàng khác nhau, đơn hàng mặc định được khởi tạo mỗi khi khách hàng cho thêm hàng vào giỏ. Và mặc định đơn hàng chưa tiến hành đặt hàng sẽ ở trạng thái chưa thanh toán.
+    
+    """
     
     user = models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
     paymentMethod = models.CharField(max_length=200,null = True,blank=True)
@@ -42,11 +51,17 @@ class Order(models.Model):
     id = models.AutoField(primary_key=True,editable=False)
 
     def __str__(self) -> str:
+        """
+        Hiển thị id của đơn hàng
+        """
         return str(self.id)
     
     
     
 class OrderItem(models.Model):
+    """
+    Model chứa các sản phẩm được khách hàng cho vào giỏ hàng. Mỗi mặt hàng được đặt sẽ thuộc về một đơn hàng duy nhất và một khách hàng duy nhất. Sau khi đơn hàng được thanh toán, đặt hàng thì mặt hàng sẽ bị xóa khỏi database. 
+    """
     product = models.ForeignKey(Product,on_delete=models.SET_NULL,null=True)
     order = models.ForeignKey(Order,on_delete=models.SET_NULL,null=True)
     price = models.DecimalField(max_digits=20,decimal_places=2,null=True,blank=True)
@@ -56,11 +71,17 @@ class OrderItem(models.Model):
     id = models.AutoField(primary_key=True,editable=False)
     
     def __str__(self) -> str:
+        """
+        Hiển thị tên của mặt hàng được đặt
+        """
         return str(self.name)
     
     
     
 class ShippingAddress(models.Model):
+    """
+    Model chứa dữ liệu vị trí nhận hàng của khách hàng. Mỗi đơn hàng sẽ có duy nhất một địa chỉ nhận hàng. 
+    """
     order = models.OneToOneField(Order,on_delete=models.CASCADE,null=True)
     address = models.CharField(max_length=200,null=True,blank=True)
     city = models.CharField(max_length=200,null=True,blank=True)
@@ -69,4 +90,7 @@ class ShippingAddress(models.Model):
     
     
     def __str__(self) -> str:
+        """
+        Hiển thị id của địa chỉ nhận hàng
+        """
         return str(self.id)
