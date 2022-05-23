@@ -33,6 +33,7 @@ def homePage(request):
 def cart(request):
     """ Render ra trang Giỏ hàng
     input : request
+    Trang giỏ hàng bắt buộc khách hàng phải có tài khoản, nên nếu như khách hàng chưa đăng nhập sẽ được chuyển đến trang đăng nhập hoặc đăng kí tài khoản
     output : danh sách các sản phẩm trong giỏ hàng, tổng tiền
     """
     user = request.user
@@ -85,7 +86,7 @@ def cart(request):
 def loginPage(request):
     """ Render trang đăng nhập, xử lý yêu cầu đăng nhập
     input : request, thông tin đăng nhập
-    output : nếu thông tin đăng nhập đúng, trả về trang chủ, ngược lại trả về lỗi
+    output : nếu thông tin đăng nhập đúng, trả về trang trước đó, ngược lại trả về lỗi
     """
     
     page = 'login'
@@ -127,7 +128,7 @@ def loginPage(request):
 def signupPage(request):
     """ Render trang đăng ký, xử lý yêu cầu đăng ký
     input : request, thông tin đăng ký
-    output : nếu thông tin đăng ký đúng, trả về trang chủ, ngược lại trả về lỗi
+    output : nếu thông tin đăng ký đúng, trả về trang trước đó, ngược lại trả về lỗi
     """
     
     next= request.GET.get('next','/')
@@ -188,16 +189,13 @@ def productsPage(request):
 def productInfo(request, pk):
     """ Hàm xuất ra trang chi tiết sản phẩm
     input: request, khóa chính sản phẩm
+    Trang thông tin chi tiết sản phẩm được lấy dữ liệu sản phẩm thông qua khóa chính (pk). Tuy nhiên, để thêm hàng vào giỏ thì khách hàng phải đăng nhập vào tài khoản. 
     output: chi tiết thông tin sản phẩm
     """
     product = Product.objects.get(id=pk) 
     query = Q(category = product.category)
     relate_products = Product.objects.all().filter(query)[:5]
     if request.method == 'POST':
-        # next = request.POST.get('next')
-        # print('------ PRE: {} ------'.format(next))
-        # if not request.user.is_authenticated:
-        #     return redirect('login')
         order, created = Order.objects.get_or_create(user=request.user,isConfirmed = False)
         OrderItem.objects.create(
             product=product,
@@ -223,6 +221,7 @@ def productInfo(request, pk):
 def paymentPage(request):
     """ Hàm xuất ra trang thanh toán
     input: request, thông tin người dùng nhập vào
+    Trang để khách hàng cung cấp các thông tin thanh toán cho cửa hàng, sau khi tiến hành đặt hàng thành công thì đơn hàng sẽ được lưu lại cùng với địa chỉ nhận hàng của khách hàng.
     output: địa chỉ giao hàng, các sản phẩm trong giỏ hàng, đơn hàng, tổng cộng
     """
     user = request.user
